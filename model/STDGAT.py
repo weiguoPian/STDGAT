@@ -36,7 +36,7 @@ class Attentionlayer(nn.Module):
 
 class STDGAT(nn.Module):
     def __init__(self, args):
-        super(STGAT, self).__init__()
+        super(STDGAT, self).__init__()
         self.args = args
 
         self.attlayer1 = Attentionlayer(args=self.args, num_nodes=121, in_features=1, out_features=32)
