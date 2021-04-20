@@ -48,11 +48,11 @@ class STDGAT(nn.Module):
         self.fc = nn.Linear(in_features=512, out_features=121)
 
 
-    def forward(self, x, features):
+    def forward(self, x, od_features):
         x = torch.transpose(x, 0, 1)
-        att_out = self.attlayer1.forward(x=x, adj=features)
-        att_out = self.attlayer2.forward(x=att_out, adj=features)
-        att_out = self.attlayer3.forward(x=att_out, adj=features)
+        att_out = self.attlayer1.forward(x=x, adj=od_features)
+        att_out = self.attlayer2.forward(x=att_out, adj=od_features)
+        att_out = self.attlayer3.forward(x=att_out, adj=od_features)
         
         att_out = att_out.view(att_out.shape[0], att_out.shape[1], -1)
         rnn_out, hn = self.rnn(att_out)
@@ -75,10 +75,10 @@ class GAT(nn.Module):
         self.fc2 = nn.Linear(in_features=512, out_features=121)
 
 
-    def forward(self, x, features):
-        att_out = self.attlayer1.forward(x=x, adj=features)
-        att_out = self.attlayer2.forward(x=att_out, adj=features)
-        att_out = self.attlayer3.forward(x=att_out, adj=features)
+    def forward(self, x, od_features):
+        att_out = self.attlayer1.forward(x=x, adj=od_features)
+        att_out = self.attlayer2.forward(x=att_out, adj=od_features)
+        att_out = self.attlayer3.forward(x=att_out, adj=od_features)
 
         att_out = att_out.view(att_out.shape[0], att_out.shape[1], -1)
 

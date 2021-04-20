@@ -34,21 +34,21 @@ def trainNetSTDGAT(args):
         for _, pack in enumerate(train_loader):
             step += 1
             samples = pack[0]
-            features = pack[1]
+            od_features = pack[1]
 
             samples = list(map(lambda item: item.numpy(), samples))
             seqs_sample = torch.Tensor(samples[:-1])
             labels = torch.Tensor(samples[-1])
 
-            features = list(map(lambda item: item.numpy(), features))
-            features = torch.Tensor(features)
+            od_features = list(map(lambda item: item.numpy(), od_features))
+            od_features = torch.Tensor(od_features)
 
             if args.cuda:
                 seqs_sample = seqs_sample.cuda()
-                features = features.cuda()
+                od_features = od_features.cuda()
                 labels = labels.cuda()
             seqs_sample = torch.transpose(seqs_sample, 0, 1)
-            out = model.forward(x=seqs_sample, features=features)
+            out = model.forward(x=seqs_sample, od_features=od_features)
 
             loss_func = torch.nn.MSELoss()
             loss = loss_func(out, labels)
@@ -96,21 +96,21 @@ def valNetSTDGAT(args, model_path='./save/snap_STDGAT/'):
         with torch.no_grad():
             for _, pack in enumerate(val_loader):
                 samples = pack[0]
-                features = pack[1]
+                od_features = pack[1]
 
                 samples = list(map(lambda item: item.numpy(), samples))
                 seqs_sample = torch.Tensor(samples[:-1])
                 labels = torch.Tensor(samples[-1])
 
-                features = list(map(lambda item: item.numpy(), features))
-                features = torch.Tensor(features)
+                od_features = list(map(lambda item: item.numpy(), od_features))
+                od_features = torch.Tensor(od_features)
 
                 if args.cuda:
                     seqs_sample = seqs_sample.cuda()
-                    features = features.cuda()
+                    od_features = od_features.cuda()
                     labels = labels.cuda()
                 seqs_sample = torch.transpose(seqs_sample, 0, 1)
-                out = model.forward(x=seqs_sample, features=features)
+                out = model.forward(x=seqs_sample, od_features=od_features)
                 for i in out.detach().cpu().numpy():
                     val_res_list.append(i)
                 for i in labels.detach().cpu().numpy():

@@ -17,8 +17,6 @@ def p_parse():
     parser.add_argument(
         "--data_path_adjacency_poi", default='./data/poi_adjacency.npy', type=str)
 
-    parser.add_argument("--num_GPU", default=1, type=int)
-    
     parser.add_argument("--seq_len", default=5, type=int)
     parser.add_argument("--batch_size", default=64, type=int)
     parser.add_argument("--num_workers", default=0, type=int)
